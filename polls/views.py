@@ -356,6 +356,7 @@ def Login(request):
 
 def EnviarMail():
     email = EmailMessage('Hello', 'World', to=['samuelsolano509@gmail.com'])
+    print("Hola crayola")
     email.send()
 
 def Reporteador(Nombre,TituloR,Fecha,Metodo,Codigo):

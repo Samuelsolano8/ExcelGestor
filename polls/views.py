@@ -354,13 +354,13 @@ print(Buscador)
 def Login(request):
     return render(request, 'polls/Login.html')
 
-def EnviarMail():
-    email = EmailMessage('Hello', 'World', to=['samuelsolano509@gmail.com'])
-    print("Hola crayola")
+def EnviarMail(Nombre):
+    email = EmailMessage('Reporte', 'World', to=['samuelsolano509@gmail.com'])
+    email.attach_file("polls/static/polls/Datos/Reportes/"+Nombre+".pdf")
     email.send()
 
 def Reporteador(Nombre,TituloR,Fecha,Metodo,Codigo):
-    c = canvas.Canvas(Nombre+".pdf",pagesize = A4 )
+    c = canvas.Canvas("polls/static/polls/Datos/Reportes/"+Nombre+".pdf",pagesize = A4 )
     c.setLineWidth(.3)
     c.setFont('Helvetica', 12)
 
@@ -382,9 +382,3 @@ def Reporteador(Nombre,TituloR,Fecha,Metodo,Codigo):
     c.drawString(50,580,"En la Fecha "+Fecha)
 
     c.save()
-
-EnviarMail()
-
-
-
-

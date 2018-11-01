@@ -1,0 +1,45 @@
+{% extends "polls/base.html" %}
+{% load my_templatetag %}
+{% load static %}
+
+{% block contenido %}
+<h1 id="titulo">Entradas</h1>
+<input type = "text" id ="search" class="search" placeholder = "Buscar...." autofocus />
+<div id="Tabla_Inventario">
+    <table class="table table-hover table-striped table-fixed" id="Table_datos">
+        <thead class="thead-dark">
+            <tr>
+                <th  scope="col">Num de Factura</th>
+                <th  scope="col">Fecha</th>
+                <th  scope="col">Codigo de Producto</th>
+                <th  scope="col">Descripcion</th>
+                <th  scope="col">Cantidad</th>
+                <th  scope="col">Serie</th>
+                <th  scope="col">Observaciones</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for Vuelta in Indice %}
+        <tr>
+            <td class="changeable" id="A{{Indice|get_at_index:forloop.counter0}}"  data-valor="{{Factura|get_at_index:forloop.counter0}}">{{Factura|get_at_index:forloop.counter0}}</td>
+            <td class="changeable" id="B{{Indice|get_at_index:forloop.counter0}}"  data-valor="{{Fecha|get_at_index:forloop.counter0}}">{{Fecha|get_at_index:forloop.counter0}}</td>
+            <td class="changeable" id="C{{Indice|get_at_index:forloop.counter0}}"  data-valor="{{Codigo|get_at_index:forloop.counter0}}">{{Codigo|get_at_index:forloop.counter0}}</td>
+            <td class="changeable" id="D{{Indice|get_at_index:forloop.counter0}}"  data-valor="{{Descripcion|get_at_index:forloop.counter0}}">{{Descripcion|get_at_index:forloop.counter0}}</td>
+            <td class="changeable" id="E{{Indice|get_at_index:forloop.counter0}}"  data-valor="{{Cantidad|get_at_index:forloop.counter0}}">{{Cantidad|get_at_index:forloop.counter0}}</td>
+            <td class="changeable" id="F{{Indice|get_at_index:forloop.counter0}}"  data-valor="{{Serie|get_at_index:forloop.counter0}}">{{Serie|get_at_index:forloop.counter0}}</td>
+            <td class="changeable" id="G{{Indice|get_at_index:forloop.counter0}}"  data-valor="{{Observaciones|get_at_index:forloop.counter0}}">{{Observaciones|get_at_index:forloop.counter0}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+</div>
+    <a class="btn btn-primary" href="{% url 'polls:Nentrada' %}" style="color: white; font-weight: 500;">Agregar Entradas</a>
+
+{% endblock %}
+{% block scripts %}
+<script>
+    window.token = "{{ csrf_token }}";
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="{% static 'polls/JS/Funcionalidadinventario.js'%}"></script>
+{% endblock %}

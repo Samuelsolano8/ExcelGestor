@@ -1,0 +1,42 @@
+{% extends "polls/base.html" %}
+{% load my_templatetag %}
+{% load static %}
+
+{% block contenido %}
+<h1 id="titulo">Tabla Inventario</h1>
+<input type = "text" id ="search" class="search" placeholder = "Buscar...." autofocus />
+<div id="Tabla_Inventario">
+    <table class="table table-hover table-striped table-fixed" id="Table_datos">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Codigo Producto</th>
+                <th scope="col">Descripcion Del Producto</th>
+                <th scope="col">Entrada Inicial</th>
+                <th scope="col">Entradas</th>
+                <th scope="col">Salidas</th>
+                <th scope="col">Stock</th>
+            </tr>
+        </thead>
+    <tbody>
+        {% for Vuelta in Indice %}
+        <tr>
+            <td class="changeable" id="A{{Indice|get_at_index:forloop.counter0}}"  contentEditable="true" data-valor="{{ID|get_at_index:forloop.counter0}}">{{ID|get_at_index:forloop.counter0}}</td>
+            <td class="changeable" id="B{{Indice|get_at_index:forloop.counter0}}"  contentEditable="true" data-valor="{{Descripcion|get_at_index:forloop.counter0}}">{{Descripcion|get_at_index:forloop.counter0}}</td>
+            <td class="changeable" id="C{{Indice|get_at_index:forloop.counter0}}"  data-valor="{{EI|get_at_index:forloop.counter0}}">{{EI|get_at_index:forloop.counter0}}</td>
+            <td class="changeable" id="D{{Indice|get_at_index:forloop.counter0}}"  data-valor="{{Entradas|get_at_index:forloop.counter0}}">{{Entradas|get_at_index:forloop.counter0}}</td>
+            <td class="changeable" id="E{{Indice|get_at_index:forloop.counter0}}"  data-valor="{{Salidas|get_at_index:forloop.counter0}}">{{Salidas|get_at_index:forloop.counter0}}</td>
+            <td class="changeable" id="F{{Indice|get_at_index:forloop.counter0}}"  data-valor="{{Stock|get_at_index:forloop.counter0}}">{{Stock|get_at_index:forloop.counter0}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+    <a href="{% url 'polls:Ninventario' %}" class="btn btn-primary" style="color: white; font-weight: 500;">Agregar Producto </a>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+    window.token = "{{ csrf_token }}";
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="{% static 'polls/JS/Funcionalidadinventario.js'%}"></script>
+{% endblock %}

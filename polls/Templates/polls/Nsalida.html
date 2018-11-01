@@ -1,0 +1,80 @@
+{% extends "polls/base.html" %}
+{% load my_templatetag %}
+{% load static %}
+
+
+{% block estilo %}
+{% endblock %}
+
+
+{% block contenido %}
+<form action="{% url 'polls:Nsalida' %}" method="POST">
+    {% csrf_token %}
+    <h1 style="margin-left: 30px;">Agregar una Salida al Sistema</h1>
+    <div class="Orden">
+        <div class="form-group" style="width: 37%;">
+            <label class="Titulito" for="Factura">Num de Factura:</label>
+            <input type="text" class="form-control" id="Factura" name="Factura" placeholder="INGRESAR EL NUMERO DE FACTURA" required>
+        </div>
+        <div class="form-group" style="width: 37%;">
+            <label class="Titulito" for="Fecha">Fecha:</label>
+            <input type="date" class="form-control" id="Fecha" name="Fecha" required>
+        </div>
+
+        <div class="form-group" style="width: 37%;">
+            <label class="Titulito" for="CodigoP">Codigo de Producto:</label>
+            <select name="CodigoP" class="js-example-basic-single form-control" id="CodigoP">
+                <option value="">SELECCIONE EL CODIGO DE PRODUCTO</option>
+                {% for Vuelta in Codigo %}
+                    <option id="OpcionC" identificador="{{ forloop.counter0 }}" value="{{Codigo|get_at_index:forloop.counter0}}">{{Codigo|get_at_index:forloop.counter0}}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group" style="width: 37%;">
+            <label class="Titulito" for="Descripcion">Descripcion:</label>
+            <input type="text" class="form-control" id="Descripcion" name="Descripcion" placeholder="DESCRIPCION DEL PRODUCTO" readonly="readonly">
+        </div>
+        <div class="form-group" style="width: 37%;">
+            <label class="Titulito" for="Cantidad">Cantidad:</label>
+            <input type="number" class="form-control" id="Cantidad" name="Cantidad" placeholder="INGRESAR CANTIDAD DE SALIDA" required>
+        </div>
+        <div class="form-group" style="width: 43%;">
+            <label class="Titulito" for="OBSERVACIONES">Observaciones:</label>
+            <input type="text" class="form-control" id="OBSERVACIONES" name="OBSERVACIONES" placeholder="INGRESAR OBSERVACIONES REFERENTES A LA ENTRADA" required>
+        </div>
+        <div class="form-group" style="width: 43%;">
+            <label class="Titulito" for="Cliente">DE O P/CLIENTE:</label>
+            <input type="text" class="form-control" id="Cliente" name="Cliente" placeholder="INGRESAR CLIENTE" required>
+        </div>
+        <div class="form-group" style="width: 43%;">
+            <label class="Titulito" for="Tecnico">TECNICO RECIBIO Y FIRMO SALIDA:</label>
+            <input type="text" class="form-control" id="Tecnico" name="Tecnico" placeholder="TECNICO QUE REGISTRO LA SALIDA" required>
+        </div>
+        <div class="form-group" style="width: 37%;">
+            <label class="Titulito" for="SERIE">Numero de Serie:</label>
+            <input type="number" class="form-control" id="SERIE" name="SERIE" placeholder="INGRESAR EL NUMERO DE SERIE" required>
+        </div>
+        <div>
+            <fieldset>
+                <label class="Titulito" for="Respuesta">Desea Generar Un Informe De Seguridad: </label>
+                    <label>
+                        <input type="radio" name="Respuesta" value="Si" style="margin-left: 10px;"> Si</label>
+                    <label>
+                        <input type="radio" name="Respuesta" value="No" checked style="margin-left: 10px;"> No</label>
+            </fieldset>
+        </div>
+        <div class="form-group">
+            <input type="hidden" id="Controlador" name="Controlador">
+        </div>
+        <button type="submit" class="btn btn-primary">Agregar Podructo Al Inventario</button>
+    </div>
+</form>
+{% endblock %}
+{% block scripts %}
+    <script>
+            var Codigo = {{Descripcion|safe}};
+            console.log(Codigo)
+    </script>
+    <script src="{% static 'polls/JS/EntradasSalidas.js' %}"></script>
+{% endblock %}

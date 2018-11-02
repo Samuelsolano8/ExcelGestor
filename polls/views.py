@@ -265,6 +265,7 @@ def Nsalida(request):
         Cliente=request.POST['Cliente']
         Tecnico=request.POST['Tecnico']
         Serie = request.POST['SERIE']
+        RM=request.POST['Respuesta']
 
         #Aqui se realiza la formula para ingresar las salidas en el inventario con su respectivo valor (Obtener el indice)
         archivo_excel2 = pd.read_excel(Ruta, sheet_name='inventario', keep_default_na=False)
@@ -301,6 +302,9 @@ def Nsalida(request):
             hoja['H' + indice] = Tecnico
             hoja['I' + indice] = Serie
         doc.save(Ruta)
+        if RM =="Si":
+            Reporteador('hola','hola','hola','hola','Hola')
+            EnviarMail('hola')
         return HttpResponseRedirect(reverse('polls:Salidas'))
     else:
 
@@ -355,7 +359,7 @@ def Login(request):
     return render(request, 'polls/Login.html')
 
 def EnviarMail(Nombre):
-    email = EmailMessage('Reporte', 'World', to=['samuelsolano509@gmail.com'])
+    email = EmailMessage('Reporte', 'Esto es una prueba', to=['samuelsolano509@gmail.com'])
     email.attach_file("polls/static/polls/Datos/Reportes/"+Nombre+".pdf")
     email.send()
 

@@ -141,3 +141,9 @@ table th{
     background: url('images/Loader.gif') 50% 50% no-repeat rgb(249,249,249);
     opacity: .8;
 }
+.bootstrap-select>.dropdown-toggle {
+        height: 40px;
+}
+.dropdown-item:hover{
+    background-color: darkgray;
+}

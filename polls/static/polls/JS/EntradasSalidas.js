@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $('.js-example-basic-single').select2();
+    $('.Buscador').select2();
 });
 $("#CodigoP").change(function(){
 var option = $('option:selected', this).attr('identificador');

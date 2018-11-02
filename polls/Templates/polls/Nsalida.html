@@ -14,7 +14,7 @@
     <div class="Orden">
         <div class="form-group" style="width: 37%;">
             <label class="Titulito" for="Factura">Num de Factura:</label>
-            <input type="text" class="form-control" id="Factura" name="Factura" placeholder="INGRESAR EL NUMERO DE FACTURA" required>
+            <input type="text" class="form-control" id="Factura" name="Factura" placeholder="INGRESAR EL NUMERO DE FACTURA">
         </div>
         <div class="form-group" style="width: 37%;">
             <label class="Titulito" for="Fecha">Fecha:</label>
@@ -23,10 +23,10 @@
 
         <div class="form-group" style="width: 37%;">
             <label class="Titulito" for="CodigoP">Codigo de Producto:</label>
-            <select name="CodigoP" class="js-example-basic-single form-control" id="CodigoP">
+            <select name="CodigoP" class="selectpicker form-control" data-live-search="true" id="CodigoP">
                 <option value="">SELECCIONE EL CODIGO DE PRODUCTO</option>
                 {% for Vuelta in Codigo %}
-                    <option id="OpcionC" identificador="{{ forloop.counter0 }}" value="{{Codigo|get_at_index:forloop.counter0}}">{{Codigo|get_at_index:forloop.counter0}}</option>
+                    <option id="OpcionC" identificador="{{ forloop.counter0 }}" value="{{Vuelta}}">{{Vuelta}}</option>
                 {% endfor %}
             </select>
         </div>
@@ -67,7 +67,7 @@
         <div class="form-group">
             <input type="hidden" id="Controlador" name="Controlador">
         </div>
-        <button type="submit" class="btn btn-primary">Agregar Podructo Al Inventario</button>
+        <button type="submit" class="btn btn-primary">Agregar Salida</button>
     </div>
 </form>
 {% endblock %}

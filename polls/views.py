@@ -43,7 +43,11 @@ def Result(request):
     Salidas=archivo_excel['Salidas']
     Stock=archivo_excel['Stock']
     return render(request ,'polls/Reporte.html',{'ID':ID,'Descripcion':Descripcion,'EI':EI,'Entradas':Entradas,'Salidas':Salidas,'Stock':Stock,'Indice':listaloop})
-
+def Alotes(request):
+    if request.method=='POST':
+        print("Hola")
+    else:
+        return render(request, 'polls/Alotes.html')
 def Ninventario(request):
     if request.method == 'POST':
         # Validacion de sobreescribir en datos vacios

@@ -3,7 +3,6 @@
 {% load static %}
 
 
-{% block estilo %}<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />{% endblock %}
 
 {% block contenido %}
 <form action="{% url 'polls:Nentrada' %}" method="POST">
@@ -65,5 +64,4 @@
             console.log(Codigo)
     </script>
     <script src="{% static 'polls/JS/EntradasSalidas.js' %}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 {% endblock %}

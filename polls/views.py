@@ -47,7 +47,22 @@ def Alotes(request):
     if request.method=='POST':
         print("Hola")
     else:
-        return render(request, 'polls/Alotes.html')
+        archivo_excel = pd.read_excel(Ruta, sheet_name='inventario', keep_default_na=False)
+        Codigo = archivo_excel['CLASIF.EQUIP(ID)']
+        CodigoP = []
+        Descripcion = archivo_excel['Descripcion']
+        DescripcionP = []
+        for vuelta in Descripcion:
+            if str(vuelta).strip(' ') != "":
+                DescripcionP.append(vuelta)
+            else:
+                DescripcionP.append('Sin Descripcion')
+        for vuelta in Codigo:
+            if str(vuelta).strip(' ') != "":
+                CodigoP.append(vuelta)
+            else:
+                CodigoP.append('Sin Codigo')
+        return render(request, 'polls/Alotes.html', {'Codigo': CodigoP, 'Descripcion': DescripcionP})
 def Ninventario(request):
     if request.method == 'POST':
         # Validacion de sobreescribir en datos vacios

@@ -1,1 +1,64 @@
-Hola crayola
+{% extends "polls/base.html" %}
+{% load my_templatetag %}
+{% load static %}
+
+
+{% block contenido %}
+<div class="container">
+    <form>
+    <div class="row">
+      <div class="form-group col-6" style="width: 100%; ">
+          <label class="Titulito" for="Descripcion">Producto:</label>
+          <select name="Descripcion" class="selectpicker form-control" data-live-search="true" id="Descripcion">
+              <option value="">SELECCIONE EL PRODUCTO</option>
+                {% for Vuelta in Descripcion %}
+                    <option id="OpcionD" identificador="{{ forloop.counter0 }}" value="{{Vuelta}}">{{Vuelta}}</option>
+                {% endfor %}
+          </select>
+      </div>
+      <div class="form-group col-6" style="width: 100%; ">
+          <label class="Titulito" for="CodigoP">Codigo de Producto:</label>
+            <select name="CodigoP" class="selectpicker form-control" data-live-search="true" id="CodigoP">
+                <option value="">SELECCIONE EL CODIGO DE PRODUCTO</option>
+                {% for Vuelta in Codigo %}
+                    <option id="OpcionC" identificador="{{ forloop.counter0 }}" value="{{Vuelta}}">{{Vuelta}}</option>
+                {% endfor %}
+            </select>
+      </div>
+    </div>
+   <div class="form-group">
+    <p>
+      <label class="Titulito" for="NumeroF">Numero de Factura:</label> <br>
+      <input id="NumeroF" class="form-control" type="text" placeholder="NUMERO DE FACTURA"><br>
+    </p>
+    <p>
+      <label class="Titulito" for="Serie">Serie del producto:</label> <br>
+      <input id="Serie" class="form-control" type="text" placeholder="SERIE DEL PRODUCTO"><br>
+    </p>
+    <button id="adicionar" class="btn btn-primary" type="button">Adicionar a la tabla</button>
+  </div>
+</form>
+<table  id="mytable" class="table table-bordered table-hover ">
+  <tr>
+    <th>Producto:</th>
+    <th>Codigo:</th>
+    <th>Factura:</th>
+    <th>Cantidad:</th>
+    <th>Serie:</th>
+    <th>Fecha:</th>
+    <th>Eliminar:</th>
+
+  </tr>
+</table>
+
+</div>
+{% endblock %}
+{% block scripts %}
+    <script>
+            var Codigo = {{Descripcion|safe}};
+            var CodigoD={{ Codigo|safe }}
+            console.log(Codigo)
+            console.log(CodigoD)
+    </script>
+    <script src="{% static 'polls/JS/Dash.js' %}"></script>
+{% endblock %}

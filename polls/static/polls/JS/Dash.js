@@ -45,3 +45,10 @@ $("#Descripcion").change(function(){
     var option = $('option:selected', this).attr('identificador');
     $("#CodigoP").val(CodigoD[option]);
 });
+$('#Lotes').keydown(function(e) {
+var key = e.which;
+if (key == 13) {
+// As ASCII code for ENTER key is "13"
+$('#adicionar').click(); // Submit form code
+}
+});

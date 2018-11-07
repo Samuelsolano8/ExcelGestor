@@ -5,7 +5,7 @@
 
 {% block contenido %}
 <div class="container">
-    <form>
+    <form id="Lotes" name="Lotes">
     <div class="row">
       <div class="form-group col-6" style="width: 100%; ">
           <label class="Titulito" for="Descripcion">Producto:</label>
@@ -35,7 +35,7 @@
       <label class="Titulito" for="Serie">Serie del producto:</label> <br>
       <input id="Serie" class="form-control" type="text" placeholder="SERIE DEL PRODUCTO"><br>
     </p>
-    <button id="adicionar" class="btn btn-primary" type="button">Adicionar a la tabla</button>
+    <button id="adicionar" name="adicionar" class="btn btn-primary" type="button">Adicionar a la tabla</button>
   </div>
 </form>
 <table  id="mytable" class="table table-bordered table-hover ">

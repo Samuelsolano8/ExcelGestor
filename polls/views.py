@@ -46,6 +46,8 @@ def Result(request):
 def Alotes(request):
     if request.method=='POST':
         print("Hola")
+        return render(request,'polls/Alotes.html')
+
     else:
         archivo_excel = pd.read_excel(Ruta, sheet_name='inventario', keep_default_na=False)
         Codigo = archivo_excel['CLASIF.EQUIP(ID)']

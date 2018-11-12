@@ -1,15 +1,17 @@
-  $(document).ready(function() {
+$(document).ready(function() {
 //obtenemos el valor de los input
 var i = 1; //contador para asignar id al boton que borrara la fila
-
+var cantidad=1;
 var FechaV =[];
 var FacturaV=[];
 var SerieV=[];
 var CodigoPV=[];
 var ProductoV=[];
+
 function strip(str) {
     return str.replace(/^\s+|\s+$/g, '');
 }
+
 $('#adicionar').click(function() {
    
   var hoy = new Date();
@@ -17,7 +19,6 @@ $('#adicionar').click(function() {
   var mm = hoy.getMonth()+1;
   var yyyy = hoy.getFullYear();
   var Fecha = dd + '/' + mm + '/' + yyyy;
-  var cantidad=1;
   var Factura = document.getElementById("NumeroF").value;
   var Serie = document.getElementById("Serie").value;
   var CodigoP=document.getElementById("CodigoP").value;
@@ -43,6 +44,7 @@ $('#adicionar').click(function() {
     document.getElementById("Serie").value ="";
     document.getElementById("Serie").focus();
   });
+
 $(document).on('click', '.btn_remove', function() {
   var contador=1;
   var button_id = $(this).attr("name");
@@ -56,7 +58,6 @@ $(document).on('click', '.btn_remove', function() {
     SerieV.splice(button_id-1,1);
     CodigoPV.splice(button_id-1,1);
     ProductoV.splice(button_id-1,1);
-    console.log(SerieV);
     for (vuelta=0; vuelta<nFilas; vuelta++) {
       unoA=vuelta+1;
       nombre="remove"+unoA;
@@ -72,7 +73,18 @@ $(document).on('click', '.btn_remove', function() {
     }
     i=i-1;
   });
+$("#Enviar").click(function () {
+  nFilas=$("#mytable tr").length;
+  if (nFilas == 1) {
+    alert("No hay productos para agregar");
+  }
+  else {
+      $.post("/polls/Alotes/", {Codigo: CodigoPV, Fecha: FechaV, Factura: FacturaV,Descripcion : ProductoV, Cantidad:cantidad,Serie:SerieV,Observaciones:"Agregado por lotes",csrfmiddlewaretoken:window.CSRF_TOKEN}, function (result) {
+      });
+  }
 });
+
+
 $("#CodigoP").change(function(){
     var option = $('option:selected', this).attr('identificador');
     $("#Descripcion").val(Codigo[option]);
@@ -92,4 +104,5 @@ if (key == 13) {
 // As ASCII code for ENTER key is "13"
 $('#adicionar').click(); // Submit form code
 }
+});
 });

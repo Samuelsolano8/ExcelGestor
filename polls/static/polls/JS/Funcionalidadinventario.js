@@ -10,7 +10,7 @@ $(".changeable").focus(function() {
         id = $(this).attr("id");
         fila=$(this).attr("filas");
         if (myUniversalOldValueHolder!=Nuevovalor){
-            $.post("http://192.168.200.68:8000/polls/Reporte/", {Valor: Nuevovalor,ID: id,fila: fila}, function(result){
+            $.post("/polls/Reporte/", {Valor: Nuevovalor,ID: id,fila: fila}, function(result){
 
             });
         }

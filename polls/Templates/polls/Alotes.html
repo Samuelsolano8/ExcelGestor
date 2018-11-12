@@ -48,11 +48,14 @@
 </div>
 {% endblock %}
 {% block scripts %}
+
     <script>
             var Codigo = {{Descripcion|safe}};
             var CodigoD={{ Codigo|safe }}
             console.log(Codigo);
             console.log(CodigoD);
+            window.CSRF_TOKEN = "{{ csrf_token }}";
+
     </script>
     <script src="{% static 'polls/JS/Dash.js' %}"></script>
 {% endblock %}

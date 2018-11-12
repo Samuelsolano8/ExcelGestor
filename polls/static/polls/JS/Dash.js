@@ -27,7 +27,7 @@ $('#adicionar').click(function() {
     alert("Porfavor llene todos los campos");
   }
   else {
-      var fila = '<tr id="row' + i + '"><td>' + Producto + '</td><td>' + CodigoP + '</td><td>' + Factura + '</td><td>' + cantidad + '</td><td>' + Serie + '</td><td>' + Fecha + '</td><td><button type="button" name="' +i+ '" id="remove'+i+'" class="btn btn-danger btn_remove">Quitar</button></td></tr>'; //esto seria lo que contendria la fila
+      var fila = '<tr name="FilasG" id="row' + i + '"><td>' + Producto + '</td><td>' + CodigoP + '</td><td>' + Factura + '</td><td>' + cantidad + '</td><td>' + Serie + '</td><td>' + Fecha + '</td><td><button type="button" name="' +i+ '" id="remove'+i+'" class="btn btn-danger btn_remove">Quitar</button></td></tr>'; //esto seria lo que contendria la fila
       i++;
   FechaV.push(Fecha);
   FacturaV.push(Factura);
@@ -79,8 +79,29 @@ $("#Enviar").click(function () {
     alert("No hay productos para agregar");
   }
   else {
-      $.post("/polls/Alotes/", {Codigo: CodigoPV, Fecha: FechaV, Factura: FacturaV,Descripcion : ProductoV, Cantidad:cantidad,Serie:SerieV,Observaciones:"Agregado por lotes",csrfmiddlewaretoken:window.CSRF_TOKEN}, function (result) {
-      });
+    CodigoPV=JSON.stringify(CodigoPV);
+    FechaV=JSON.stringify(FechaV);
+    FacturaV=JSON.stringify(FacturaV);
+    ProductoV=JSON.stringify(ProductoV);
+    SerieV=JSON.stringify(SerieV);
+    console.log(CodigoPV);
+    $.ajax({
+        url:"/polls/Alotes/",
+        data:{Codigo: CodigoPV, Fecha: FechaV, Factura: FacturaV,Descripcion : ProductoV, Cantidad:cantidad,Serie:SerieV,Observaciones:"Agregado por lotes",csrfmiddlewaretoken:window.CSRF_TOKEN},
+        type : 'POST',
+        success : function() {
+        alert("Productos agregados con exito");
+        $('tr[name=FilasG]').remove();
+        var FechaV =[];
+        var FacturaV=[];
+        var SerieV=[];
+        var CodigoPV=[];
+        var ProductoV=[];
+    },
+        error : function(xhr, status) {
+        alert('Disculpe, existió un problema');
+    },
+    });
   }
 });
 

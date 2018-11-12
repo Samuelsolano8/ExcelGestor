@@ -18,6 +18,7 @@ from reportlab.lib.pagesizes import A4
 from reportlab.lib.pagesizes import letter
 from django.core.mail import EmailMessage
 from django.core.mail import send_mail
+import json
 
 Ruta = 'C:/Users/Israel/Desktop/tutorial/mysite/polls/static/polls/Datos/Inventario.xlsx'
 @csrf_exempt
@@ -45,7 +46,22 @@ def Result(request):
     return render(request ,'polls/Reporte.html',{'ID':ID,'Descripcion':Descripcion,'EI':EI,'Entradas':Entradas,'Salidas':Salidas,'Stock':Stock,'Indice':listaloop})
 def Alotes(request):
     if request.method=='POST':
-        print("Hola")
+        Codigo = request.POST['Codigo']
+        Fecha = request.POST['Fecha']
+        Factura = request.POST['Factura']
+        Descripcion = request.POST['Descripcion']
+        Cantidad = request.POST['Cantidad']
+        Serie = request.POST['Serie']
+        Observaciones = request.POST['Observaciones']
+        Factura=json.loads(Factura)
+        Codigo=json.loads(Codigo)
+        Descripcion=json.loads(Descripcion)
+        Serie=json.loads(Serie)
+        Fecha = json.loads(Fecha)
+
+
+
+
         return render(request,'polls/Alotes.html')
 
     else:

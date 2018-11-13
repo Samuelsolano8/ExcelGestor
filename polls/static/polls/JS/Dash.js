@@ -7,6 +7,8 @@ var FacturaV=[];
 var SerieV=[];
 var CodigoPV=[];
 var ProductoV=[];
+var indiceV=[];
+var option=0;
 
 function strip(str) {
     return str.replace(/^\s+|\s+$/g, '');
@@ -34,6 +36,7 @@ $('#adicionar').click(function() {
   SerieV.push(Serie);
   CodigoPV.push(CodigoP);
   ProductoV.push(Producto);
+  indiceV.push(option);
   }
   console.log(SerieV);
   $('#mytable tr:first').after(fila);
@@ -58,6 +61,7 @@ $(document).on('click', '.btn_remove', function() {
     SerieV.splice(button_id-1,1);
     CodigoPV.splice(button_id-1,1);
     ProductoV.splice(button_id-1,1);
+    indiceV.splice(button_id-1,1);
     for (vuelta=0; vuelta<nFilas; vuelta++) {
       unoA=vuelta+1;
       nombre="remove"+unoA;
@@ -73,47 +77,10 @@ $(document).on('click', '.btn_remove', function() {
     }
     i=i-1;
   });
-$("#Enviar").click(function () {
-  nFilas=$("#mytable tr").length;
-  if (nFilas == 1) {
-    alert("No hay productos para agregar");
-  }
-  else {
-    CodigoPV=JSON.stringify(CodigoPV);
-    FechaV=JSON.stringify(FechaV);
-    FacturaV=JSON.stringify(FacturaV);
-    ProductoV=JSON.stringify(ProductoV);
-    SerieV=JSON.stringify(SerieV);
-    console.log(CodigoPV);
-    $.ajax({
-        url:"/polls/Alotes/",
-        data:{Codigo: CodigoPV, Fecha: FechaV, Factura: FacturaV,Descripcion : ProductoV, Cantidad:cantidad,Serie:SerieV,Observaciones:"Agregado por lotes",csrfmiddlewaretoken:window.CSRF_TOKEN},
-        type : 'POST',
-        success : function() {
-        alert("Productos agregados con exito");
-        $('tr[name=FilasG]').remove();
-        var FechaV =[];
-        var FacturaV=[];
-        var SerieV=[];
-        var CodigoPV=[];
-        var ProductoV=[];
-    },
-        error : function(xhr, status) {
-        alert('Disculpe, existió un problema');
-    },
-    });
-  }
-});
-
-
-$("#CodigoP").change(function(){
-    var option = $('option:selected', this).attr('identificador');
-    $("#Descripcion").val(Codigo[option]);
-});
-
 $("#Descripcion").change(function(){
-    var option = $('option:selected', this).attr('identificador');
+    option = $('option:selected', this).attr('identificador');
     $("#CodigoP").val(CodigoD[option]);
+    $("#Controlador").val(option);
 });
 $('#Lotes').keydown(function(e) {
 var key = e.which;
@@ -125,5 +92,38 @@ if (key == 13) {
 // As ASCII code for ENTER key is "13"
 $('#adicionar').click(); // Submit form code
 }
+});
+
+$("#Enviar").click(function () {
+  nFilas=$("#mytable tr").length;
+  if (nFilas == 1) {
+    alert("No hay productos para agregar");
+  }
+  else {
+    CodigoPV=JSON.stringify(CodigoPV);
+    FechaV=JSON.stringify(FechaV);
+    FacturaV=JSON.stringify(FacturaV);
+    ProductoV=JSON.stringify(ProductoV);
+    SerieV=JSON.stringify(SerieV);
+    indiceV=JSON.stringify(indiceV);
+    console.log(CodigoPV);
+    $.ajax({
+        url:"/polls/Alotes/",
+        data:{indice:indiceV,Codigo: CodigoPV, Fecha: FechaV, Factura: FacturaV,Descripcion : ProductoV, Cantidad:cantidad,Serie:SerieV,Observaciones:"Agregado por lotes",csrfmiddlewaretoken:window.CSRF_TOKEN},
+        type : 'POST',
+        success : function() {
+        alert("Productos agregados con exito");
+        $('tr[name=FilasG]').remove();
+        var FechaV = [];
+        var FacturaV= [];
+        var SerieV= [];
+        var CodigoPV = [];
+        var ProductoV = [];
+    },
+        error : function(xhr, status) {
+        alert('Disculpe, existió un problema');
+    },
+    });
+  }
 });
 });

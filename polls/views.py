@@ -44,6 +44,7 @@ def Result(request):
     Salidas=archivo_excel['Salidas']
     Stock=archivo_excel['Stock']
     return render(request ,'polls/Reporte.html',{'ID':ID,'Descripcion':Descripcion,'EI':EI,'Entradas':Entradas,'Salidas':Salidas,'Stock':Stock,'Indice':listaloop})
+
 def Alotes(request):
     if request.method=='POST':
         Codigo = request.POST['Codigo']
@@ -51,16 +52,85 @@ def Alotes(request):
         Factura = request.POST['Factura']
         Descripcion = request.POST['Descripcion']
         Cantidad = request.POST['Cantidad']
+        Cantidad=int(Cantidad)
         Serie = request.POST['Serie']
         Observaciones = request.POST['Observaciones']
+        controlador = request.POST['indice']
+        print(controlador)
+        controlador=json.loads(controlador)
         Factura=json.loads(Factura)
         Codigo=json.loads(Codigo)
         Descripcion=json.loads(Descripcion)
         Serie=json.loads(Serie)
         Fecha = json.loads(Fecha)
+        # Validacion de sobreescribir en datos vacios
+        archivo_excel = pd.read_excel(Ruta, sheet_name='Entradas', keep_default_na=False)
+        Factura = archivo_excel['Num de Factura']
+        Fecha = archivo_excel['Fecha']
+        Codigo = archivo_excel['Codigo de Producto']
+        Descripcion = archivo_excel['Descripcion']
+        CantidadP = archivo_excel['Cantidad']
+        Serie = archivo_excel['SERIE']
+        Observaciones = archivo_excel['OBSERVACIONES']
+        i = 0
+        validador = 1
+        indice = 0
+        if Codigo.empty == True and Descripcion.empty == True and CantidadP.empty == True and Factura.empty == True and Fecha.empty == True and Serie.empty == True and Observaciones.empty == True:
+            indice = 2
+            validador = 0
+            i = 0
+        else:
+            for Rol in Codigo:
+                print(Codigo[i])
+                print(Descripcion[i])
+                if str(Codigo[i]).strip(" ") == "" and str(Descripcion[i]).strip(" ") == "" and str(CantidadP[i]).strip(
+                        " ") == "":
+                    indice = i + 2
+                    validador = 0
+                    break
+                else:
+                    indice = i + 3
+                    validador = 0
+                i += 1
+        indice = str(indice)
+        print("Se Realizara una nueva entrada")
+
+        #Validacion de sumas
+
+        archivo_excel2 = pd.read_excel(Ruta, sheet_name='inventario', keep_default_na=False)
+        CantidadI = archivo_excel2['Existencias Iniciales']
+        Entradas = archivo_excel2['Entradas']
+        Salidas = archivo_excel2['Salidas']
+        doc = openpyxl.load_workbook(Ruta, data_only=True)
+        hoja = doc['Entradas']
+        Sumador = doc['inventario']
+        #Bucle Para el ingreso de cantidades por lotes
+        V=0
+        for Go in controlador:
 
 
-
+            controlador[V] = int(controlador[V])
+            SumaV = []
+            SumaV.append(CantidadI[controlador[V]])
+            SumaV.append(Entradas[controlador[V]])
+            SumaV.append(Salidas[controlador[V]])
+            print(SumaV)
+            Totalstock = ((SumaV[0] + SumaV[1] + Cantidad) - (SumaV[2]))
+            TotalS = SumaV[1] + Cantidad
+            indicador = controlador[V] + 2
+            indicador = str(indicador)
+            #Aqui se empiezan a agregar datos
+            Sumador['D'+ indicador ] = TotalS
+            Sumador['F'+ indicador] = Totalstock
+            V += 1
+            doc.save(Ruta)
+            archivo_excel2 = pd.read_excel(Ruta, sheet_name='inventario', keep_default_na=False)
+            CantidadI = archivo_excel2['Existencias Iniciales']
+            Entradas = archivo_excel2['Entradas']
+            Salidas = archivo_excel2['Salidas']
+            doc = openpyxl.load_workbook(Ruta, data_only=True)
+            hoja = doc['Entradas']
+            Sumador = doc['inventario']
 
         return render(request,'polls/Alotes.html')
 
@@ -81,6 +151,7 @@ def Alotes(request):
             else:
                 CodigoP.append('Sin Codigo')
         return render(request, 'polls/Alotes.html', {'Codigo': CodigoP, 'Descripcion': DescripcionP})
+
 def Ninventario(request):
     if request.method == 'POST':
         # Validacion de sobreescribir en datos vacios

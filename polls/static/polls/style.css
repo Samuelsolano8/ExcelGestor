@@ -94,13 +94,12 @@ body {
 
 #search{
   margin-bottom: 5px;
-  margin-left: 80%;
-  width: 20%;
+  margin-left: 49%;
+  width: 50%;
   height: 7%;
 }
 #titulo{
-  width: 28%;
-  margin-bottom: -35px;
+  width: 100%;
 }
 .Orden{
   margin-top: 40px;

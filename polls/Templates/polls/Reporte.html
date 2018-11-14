@@ -3,8 +3,14 @@
 {% load static %}
 
 {% block contenido %}
-<h1 id="titulo">Tabla Inventario</h1>
-<input type = "text" id ="search" class="search" placeholder = "Buscar...." autofocus />
+<div class="row">
+    <div class="col-6">
+        <h1 id="titulo">Tabla de Inventario</h1>
+    </div>
+    <div class="col-6">
+        <input type = "text" id ="search" class="search" placeholder = "Buscar...." autofocus />
+    </div>
+</div>
 <div id="Tabla_Inventario">
     <table class="table table-hover table-striped table-fixed" id="Table_datos">
         <thead class="thead-dark">

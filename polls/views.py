@@ -20,7 +20,7 @@ from django.core.mail import EmailMessage
 from django.core.mail import send_mail
 import json
 
-Ruta = 'C:/Users/Israel/Desktop/tutorial/mysite/polls/static/polls/Datos/Inventario.xlsx'
+Ruta = 'polls/static/polls/Datos/Inventario.xlsx'
 @csrf_exempt
 def Result(request):
     if request.method == 'POST':
@@ -54,16 +54,17 @@ def Alotes(request):
         Cantidad = request.POST['Cantidad']
         Cantidad=int(Cantidad)
         Serie = request.POST['Serie']
-        Observaciones = request.POST['Observaciones']
+        ObservacionesP = request.POST['Observaciones']
         controlador = request.POST['indice']
         print(controlador)
         controlador=json.loads(controlador)
-        Factura=json.loads(Factura)
-        Codigo=json.loads(Codigo)
-        Descripcion=json.loads(Descripcion)
-        Serie=json.loads(Serie)
-        Fecha = json.loads(Fecha)
-        # Validacion de sobreescribir en datos vacios
+        FacturaP=json.loads(Factura)
+        CodigoP=json.loads(Codigo)
+        DescripcionP=json.loads(Descripcion)
+        SerieP=json.loads(Serie)
+        FechaP = json.loads(Fecha)
+
+        # Validacion de sobreescribir en datos vacios Obtenemos los datos que hay en la hoja de entradas y lo almacenamos en variables
         archivo_excel = pd.read_excel(Ruta, sheet_name='Entradas', keep_default_na=False)
         Factura = archivo_excel['Num de Factura']
         Fecha = archivo_excel['Fecha']
@@ -72,31 +73,9 @@ def Alotes(request):
         CantidadP = archivo_excel['Cantidad']
         Serie = archivo_excel['SERIE']
         Observaciones = archivo_excel['OBSERVACIONES']
-        i = 0
-        validador = 1
-        indice = 0
-        if Codigo.empty == True and Descripcion.empty == True and CantidadP.empty == True and Factura.empty == True and Fecha.empty == True and Serie.empty == True and Observaciones.empty == True:
-            indice = 2
-            validador = 0
-            i = 0
-        else:
-            for Rol in Codigo:
-                print(Codigo[i])
-                print(Descripcion[i])
-                if str(Codigo[i]).strip(" ") == "" and str(Descripcion[i]).strip(" ") == "" and str(CantidadP[i]).strip(
-                        " ") == "":
-                    indice = i + 2
-                    validador = 0
-                    break
-                else:
-                    indice = i + 3
-                    validador = 0
-                i += 1
-        indice = str(indice)
         print("Se Realizara una nueva entrada")
 
         #Validacion de sumas
-
         archivo_excel2 = pd.read_excel(Ruta, sheet_name='inventario', keep_default_na=False)
         CantidadI = archivo_excel2['Existencias Iniciales']
         Entradas = archivo_excel2['Entradas']
@@ -104,11 +83,10 @@ def Alotes(request):
         doc = openpyxl.load_workbook(Ruta, data_only=True)
         hoja = doc['Entradas']
         Sumador = doc['inventario']
+
         #Bucle Para el ingreso de cantidades por lotes
         V=0
         for Go in controlador:
-
-
             controlador[V] = int(controlador[V])
             SumaV = []
             SumaV.append(CantidadI[controlador[V]])
@@ -132,6 +110,48 @@ def Alotes(request):
             hoja = doc['Entradas']
             Sumador = doc['inventario']
 
+        #En esta parte se realizara la entrada lamentablemente se realizan muchisimas entradas y se tiene que validar
+        #La entrada de cada uno de los productos ya uqe es por lotes
+        V=0
+        for X in CodigoP:
+            i = 0
+            validador = 1
+            indice = 0
+            if Codigo.empty == True and Descripcion.empty == True and CantidadP.empty == True and Factura.empty == True and Fecha.empty == True and Serie.empty == True and Observaciones.empty == True:
+                indice = 2
+                validador = 0
+                i = 0
+            else:
+                for Rol in Codigo:
+                    if str(Codigo[i]).strip(" ") == "" and str(Descripcion[i]).strip(" ") == "" and str(CantidadP[i]).strip(" ") == "":
+                        indice = i + 2
+                        validador = 0
+                        break
+                    else:
+                        indice = i + 3
+                        validador = 0
+                    i += 1
+            indice = str(indice)
+            if validador == 1:#Deabilite esta columna para ver si este es el error Todas las que tengan * no se estaran utilizando
+                hoja.append([Factura[V],Fecha[V],CodigoP[V],Descripcion[V],Cantidad,Serie[V],ObservacionesP])#*
+            else:
+                hoja['A' + indice] =FacturaP[V]
+                hoja['B' + indice] =FechaP[V]
+                hoja['C' + indice] =CodigoP[V]
+                hoja['D' + indice] =DescripcionP[V]
+                hoja['E' + indice] =Cantidad
+                hoja['F' + indice] =SerieP[V]
+                hoja['G' + indice] =ObservacionesP
+            doc.save(Ruta)
+            archivo_excel = pd.read_excel(Ruta, sheet_name='Entradas', keep_default_na=False)
+            Factura = archivo_excel['Num de Factura']
+            Fecha = archivo_excel['Fecha']
+            Codigo = archivo_excel['Codigo de Producto']
+            Descripcion = archivo_excel['Descripcion']
+            CantidadP = archivo_excel['Cantidad']
+            Serie = archivo_excel['SERIE']
+            Observaciones = archivo_excel['OBSERVACIONES']
+            V+=1
         return render(request,'polls/Alotes.html')
 
     else:

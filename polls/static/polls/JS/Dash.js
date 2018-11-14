@@ -9,35 +9,60 @@ var CodigoPV=[];
 var ProductoV=[];
 var indiceV=[];
 var option=0;
+var Repetido=0;
 
 function strip(str) {
     return str.replace(/^\s+|\s+$/g, '');
 }
 
 $('#adicionar').click(function() {
-   
-  var hoy = new Date();
-  var dd = hoy.getDate();
-  var mm = hoy.getMonth()+1;
-  var yyyy = hoy.getFullYear();
-  var Fecha = dd + '/' + mm + '/' + yyyy;
-  var Factura = document.getElementById("NumeroF").value;
-  var Serie = document.getElementById("Serie").value;
-  var CodigoP=document.getElementById("CodigoP").value;
-  var Producto=document.getElementById("Descripcion").value;
-  if (strip(Factura) == "" || strip(Serie) == "" || strip(CodigoP) == "" || strip(Producto) == "") {
-    alert("Porfavor llene todos los campos");
-  }
-  else {
-      var fila = '<tr name="FilasG" id="row' + i + '"><td>' + Producto + '</td><td>' + CodigoP + '</td><td>' + Factura + '</td><td>' + cantidad + '</td><td>' + Serie + '</td><td>' + Fecha + '</td><td><button type="button" name="' +i+ '" id="remove'+i+'" class="btn btn-danger btn_remove">Quitar</button></td></tr>'; //esto seria lo que contendria la fila
-      i++;
-  FechaV.push(Fecha);
-  FacturaV.push(Factura);
-  SerieV.push(Serie);
-  CodigoPV.push(CodigoP);
-  ProductoV.push(Producto);
-  indiceV.push(option);
-  }
+
+    var hoy = new Date();
+    var dd = hoy.getDate();
+    var mm = hoy.getMonth() + 1;
+    var yyyy = hoy.getFullYear();
+    var Fecha = dd + '/' + mm + '/' + yyyy;
+    var Factura = document.getElementById("NumeroF").value;
+    var Serie = document.getElementById("Serie").value;
+    var CodigoP = document.getElementById("CodigoP").value;
+    var Producto = document.getElementById("Descripcion").value;
+    if (strip(Factura) == "" || strip(Serie) == "" || strip(CodigoP) == "" || strip(Producto) == "") {
+        alert("Porfavor llene todos los campos");
+    }
+    else {
+        if (SerieV.length == 0) {
+            var fila = '<tr name="FilasG" id="row' + i + '"><td>' + Producto + '</td><td>' + CodigoP + '</td><td>' + Factura + '</td><td>' + cantidad + '</td><td>' + Serie + '</td><td>' + Fecha + '</td><td><button type="button" name="' + i + '" id="remove' + i + '" class="btn btn-danger btn_remove">Quitar</button></td></tr>'; //esto seria lo que contendria la fila
+            i++;
+            FechaV.push(Fecha);
+            FacturaV.push(Factura);
+            SerieV.push(Serie);
+            CodigoPV.push(CodigoP);
+            ProductoV.push(Producto);
+            indiceV.push(option);
+        }
+        else {
+        for (e = 0; e < SerieV.length; e++) {
+            if ((SerieV[e] == Serie) && (CodigoPV[e] == CodigoP)) {
+                console.log("Este producto esta repetido");
+                Repetido=0;
+                break;
+            }
+            else {
+                Repetido=1;
+            }
+        }
+        if (Repetido==1){
+        var fila = '<tr name="FilasG" id="row' + i + '"><td>' + Producto + '</td><td>' + CodigoP + '</td><td>' + Factura + '</td><td>' + cantidad + '</td><td>' + Serie + '</td><td>' + Fecha + '</td><td><button type="button" name="' + i + '" id="remove' + i + '" class="btn btn-danger btn_remove">Quitar</button></td></tr>'; //esto seria lo que contendria la fila
+        i++;
+        FechaV.push(Fecha);
+        FacturaV.push(Factura);
+        SerieV.push(Serie);
+        CodigoPV.push(CodigoP);
+        ProductoV.push(Producto);
+        indiceV.push(option);
+        }
+    }
+}
   console.log(SerieV);
   $('#mytable tr:first').after(fila);
     $("#adicionados").text(""); //esta instruccion limpia el div adicioandos para que no se vayan acumulando
@@ -112,13 +137,8 @@ $("#Enviar").click(function () {
         data:{indice:indiceV,Codigo: CodigoPV, Fecha: FechaV, Factura: FacturaV,Descripcion : ProductoV, Cantidad:cantidad,Serie:SerieV,Observaciones:"Agregado por lotes",csrfmiddlewaretoken:window.CSRF_TOKEN},
         type : 'POST',
         success : function() {
-        alert("Productos agregados con exito");
         $('tr[name=FilasG]').remove();
-        var FechaV = [];
-        var FacturaV= [];
-        var SerieV= [];
-        var CodigoPV = [];
-        var ProductoV = [];
+        location.reload();
     },
         error : function(xhr, status) {
         alert('Disculpe, existió un problema');

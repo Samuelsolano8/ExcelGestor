@@ -8,7 +8,7 @@
 
 
 {% block contenido %}
-<form action="{% url 'polls:Nsalida' %}" method="POST">
+<form action="{% url 'polls:Nsalida' %}" method="POST" id="Nsalida" name="Nsalida">
     {% csrf_token %}
     <h1 style="margin-left: 30px;">Agregar una Salida al Sistema</h1>
     <div class="Orden">
@@ -45,7 +45,7 @@
         </div>
         <div class="form-group" style="width: 43%;">
             <label class="Titulito" for="Cliente">DE O P/CLIENTE:</label>
-            <input type="text" class="form-control" id="Cliente" name="Cliente" placeholder="INGRESAR CLIENTE" required>
+            <input type="text" class="form-control" id="Cliente" name="Cliente" placeholder="INGRESAR CLIENTE">
         </div>
         <div class="form-group" style="width: 43%;">
             <label class="Titulito" for="Tecnico">TECNICO RECIBIO Y FIRMO SALIDA:</label>
@@ -53,7 +53,7 @@
         </div>
         <div class="form-group" style="width: 37%;">
             <label class="Titulito" for="SERIE">Numero de Serie:</label>
-            <input type="number" class="form-control" id="SERIE" name="SERIE" placeholder="INGRESAR EL NUMERO DE SERIE" required>
+            <input type="number" class="form-control" id="SERIE" name="SERIE" placeholder="INGRESAR EL NUMERO DE SERIE">
         </div>
         <div>
             <fieldset>

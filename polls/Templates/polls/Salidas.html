@@ -28,7 +28,7 @@
         </thead>
     <tbody>
         {% for Vuelta in Indice %}
-        <tr>
+        <tr style="font-weight: 500;">
             <td class="changeable" id="A{{Indice|get_at_index:forloop.counter0}}"  data-valor="{{Factura|get_at_index:forloop.counter0}}">{{Factura|get_at_index:forloop.counter0}}</td>
             <td class="changeable" id="B{{Indice|get_at_index:forloop.counter0}}"  data-valor="{{Fecha|get_at_index:forloop.counter0}}">{{Fecha|get_at_index:forloop.counter0}}</td>
             <td class="changeable" id="C{{Indice|get_at_index:forloop.counter0}}"  data-valor="{{Codigo|get_at_index:forloop.counter0}}">{{Codigo|get_at_index:forloop.counter0}}</td>

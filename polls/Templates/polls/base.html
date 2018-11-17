@@ -8,8 +8,9 @@
 <html lang="en">
 <head>
     <title>Sistema Gestor De Inventario</title>
-    <link rel="icon" type="image/png" href="{% static 'polls/images/Icono.png' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'polls/Responsividad.css' %}">
+    <link rel="icon" type="image/png" href="{% static 'polls/images/Icono.png' %}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
     {% block estilo %}{% endblock %}
@@ -19,7 +20,7 @@
 <div class="loader">
 
 </div>
-<nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+<nav id="Ajuste" class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
       <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Intelvid System</a>
       <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
       <ul class="navbar-nav px-3">

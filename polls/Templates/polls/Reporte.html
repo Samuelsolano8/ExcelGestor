@@ -25,7 +25,7 @@
         </thead>
     <tbody>
         {% for Vuelta in Indice %}
-        <tr>
+        <tr style="font-weight: 500;">
             <td class="changeable" id="A{{Indice|get_at_index:forloop.counter0}}"  contentEditable="true" data-valor="{{ID|get_at_index:forloop.counter0}}">{{ID|get_at_index:forloop.counter0}}</td>
             <td class="changeable" id="B{{Indice|get_at_index:forloop.counter0}}"  contentEditable="true" data-valor="{{Descripcion|get_at_index:forloop.counter0}}">{{Descripcion|get_at_index:forloop.counter0}}</td>
             <td class="changeable" id="C{{Indice|get_at_index:forloop.counter0}}"  data-valor="{{EI|get_at_index:forloop.counter0}}">{{EI|get_at_index:forloop.counter0}}</td>
@@ -41,7 +41,8 @@
 {% endblock %}
 {% block scripts %}
 <script>
-    window.token = "{{ csrf_token }}";
+    Lista={{ Indice }};
+    console.log(Lista);
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="{% static 'polls/JS/Funcionalidadinventario.js'%}"></script>

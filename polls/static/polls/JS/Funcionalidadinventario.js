@@ -26,3 +26,9 @@ $("#search").keyup(function () {
             $(this).show();
     });
 });
+for (e = 0; e < Lista.length; e++) {
+    Detonante=$('#F'+Lista[e]+'').attr("data-valor");
+    if (Detonante<=0){
+        $('#F'+Lista[e]+'').css("background-color", "rgba(255,0,0,0.1)");
+    }
+}

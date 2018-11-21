@@ -43,7 +43,14 @@
 <script>
     Lista={{ Indice }};
     console.log(Lista);
+    for (e = 0; e < Lista.length; e++) {
+    Detonante=$('#F'+Lista[e]+'').attr("data-valor");
+    if (Detonante<=0){
+        $('#F'+Lista[e]+'').css("background-color", "rgba(255,0,0,0.2)");
+    }
+}
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="{% static 'polls/JS/Funcionalidadinventario.js'%}"></script>
+<script src="{% static 'polls/JS/Notificaciones.js' %}"></script>
 {% endblock %}
